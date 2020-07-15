@@ -52,8 +52,8 @@
                 </tbody>
             </table>
             <pagination :pages="pagination" @emit-pages="getProducts"></pagination>
-            <!-- <product-modal ref="productModel" :status="status" :is-new="isNew" :user="user" @update="getProducts"></product-modal>
-            <del-product-modal :temp-product="tempProduct" :user="user" @update="getProducts"></del-product-modal> -->
+            <product-modal ref="productModel" :status="status" :is-new="isNew" :user="user" @update="getProducts"></product-modal>
+            <del-product-modal :temp-product="tempProduct" :user="user" @update="getProducts"></del-product-modal>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -62,9 +62,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- 刪除元件建立 -->
-    <!-- <script src="./js/delProductModal.js"></script> -->
+    <script src="./js/delProductModal.js"></script>
     <!-- 產品元件建立 -->
-    <!-- <script src="./js/productModal.js"></script> -->
+    <script src="./js/productModal.js"></script>
     <!-- 分頁 -->
     <script src="./js/pagination.js"></script>
     <!-- 主要 JS -->

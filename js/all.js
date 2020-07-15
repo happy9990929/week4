@@ -58,10 +58,9 @@ new Vue({
               $('#productModal').modal('show');
               break;
           case 'edit':
-              // this.tempProduct = Object.assign({}, product);
-              // // 使用 refs 觸發子元件方法 取得id
-              // this.$refs.productModal.getProducts(this.tempProduct.id);
-              this.getProduct(product.id);
+              this.tempProduct = Object.assign({}, product);
+              // 使用 refs 觸發子元件方法 取得id
+              this.$refs.productModal.getProducts(this.tempProduct.id);
               //切換為編輯狀態
               this.isNew = false;
               break;
