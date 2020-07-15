@@ -47,9 +47,11 @@ Vue.component('pagination', {
     return{}
   },
   props:{
+    //在 getProducts 取得的分頁物件
     pages: {}
   },
   methods:{
+    //item為點擊的分頁，如點到第2頁會為2，發出emit-pages事件觸發外層的getProducts
     emitPages(item){
       this.$emit('emit-pages', item);
     }
