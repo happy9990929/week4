@@ -21,7 +21,7 @@ new Vue({
     },
     created(){
       //在資料建立後，取得token驗證身分
-      this.user.token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+      this.user.token = document.cookie.replace(/(?:(?:^|.*;\s*)mytoken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
       //如無token則返回login，防止直接輸入網址就可進入product頁面
       if(this.user.token === ''){
         window.location = 'login.html'
@@ -38,6 +38,7 @@ new Vue({
         
         //回傳的結果資料傳入products、pagination
         axios.get(api).then((res)=>{
+          console.log(res);
           this.products = res.data.data; //取得產品列表
           this.pagination = res.data.meta.pagination;  //取得分頁資料
         }).catch((error)=>{
@@ -60,7 +61,7 @@ new Vue({
           case 'edit':
               this.tempProduct = Object.assign({}, product);
               // 使用 refs 觸發子元件方法 取得id
-              this.$refs.productModal.getProducts(this.tempProduct.id);
+              this.$refs.productModal.getProduct(this.tempProduct.id);
               //切換為編輯狀態
               this.isNew = false;
               break;

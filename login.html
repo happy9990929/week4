@@ -88,7 +88,7 @@
             console.log(res);
             const token = res.data.token;
             const expired = res.data.expired;
-            document.cookie = `token=${token}; expires=${new Date(expired * 1000)}; path=/`;
+            document.cookie = `mytoken=${token}; expires=${new Date(expired * 1000)}; path=/`;
             window.location = 'product.html';
           }).catch((error)=>{
             console.log(error);

@@ -24,7 +24,7 @@ Vue.component('delProductModal', {
     </div>`,
     data(){
         return{
-
+            APIpath: 'https://course-ec-api.hexschool.io/api/'
         }
     },
     props: {
@@ -36,12 +36,15 @@ Vue.component('delProductModal', {
     methods:{
       //刪除商品
       delProduct(){
-        const url = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product/${this.tempProduct.id}`;
+        //帶入id的api
+        const url = `${this.APIpath}${this.user.uuid}/admin/ec/product/${this.tempProduct.id}`;
         //預設帶入 token
         axios.defaults.headers.common.Authorization = `Bearer ${this.user.token}`;
-        //刪除後關閉modal，並向外發出update事件
+        
         axios.delete(url).then(() => {
+          //刪除後關閉modal
           $('#delProductModal').modal('hide');
+          //向外發出update事件
           this.$emit('update');
         });
       }

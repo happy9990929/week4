@@ -40,10 +40,6 @@ Vue.component('productModal', {
                                     <input v-model="tempProduct.unit" type="text" class="form-control" id="unit" placeholder="請輸入單位">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="calories">熱量</label>
-                                <input v-model="tempProduct.calories" type="number" class="form-control" id="calories" placeholder="請輸入熱量">
-                            </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="origin_price">原價</label>
@@ -84,6 +80,7 @@ Vue.component('productModal', {
         tempProduct: {
             imageUrl: [],
         },
+        APIpath: 'https://course-ec-api.hexschool.io/api/'
       }
     },
     props:{
@@ -94,10 +91,14 @@ Vue.component('productModal', {
     },
     methods: {
       //取得id 取出第幾筆資料
-      getProducts(id){
-        const api = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product/${id}`;
+      getProduct(id){
+        //api為第幾筆id
+        const api = `${this.APIpath}${this.user.uuid}/admin/ec/product/${id}`;
+        //取出AJAX
         axios.get(api).then((res)=>{
+          //開啟modal
           $('#productModal').modal('show');
+          //取出的產品資料傳入tempProduct
           this.tempProduct = res.data.data;
         }).catch((error)=>{
           console.log(error);
@@ -106,18 +107,20 @@ Vue.component('productModal', {
       //上傳產品資料
       updateProduct() {
         //新增商品，http為post新增
-        let api = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product`;
+        let api = `${this.APIpath}${this.user.uuid}/admin/ec/product`;
         let httpMethod = 'post';
         //當不是新增商品時，切換為編輯產品API
         if(!this.isNew){
-          api = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product/{this.tempProduct.id}`;
+          api = `${this.APIpath}${this.user.uuid}/admin/ec/product/${this.tempProduct.id}`;
           httpMethod = 'patch';
         }
         //預設帶入 token 需經過token驗證才能上傳
         axios.defaults.headers.common.Authorization = `Bearer ${this.user.token}`;
-        //更新後關閉modal並向外層發出一個update事件
+        //帶入http動作、api來新增或更新
         axios[httpMethod](api, this.tempProduct).then(()=>{
+          //新增或更新完成後關閉modal
           $('#productModal').modal('hide');
+          //向外層發出一個update事件
           this.$emit('update'); 
         }).catch((error)=>{
           console.log(error);
@@ -126,11 +129,12 @@ Vue.component('productModal', {
       //上傳檔案
       uploadFile(){
         //第一筆資料
-        const uploadedFile = this.$refs.file.file[0]; 
-        //轉成FormData，新增file欄位
+        const uploadedFile = this.$refs.file.files[0]; 
+        //轉成FormData
         const formData = new FormData();
+        //新增file欄位，formData裡放入剛抓出的第一筆資料uploadedFile
         formData.append('file', uploadedFile);
-        const url = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/storage`;
+        const url = `${this.APIpath}${this.user.uuid}/admin/storage`;
         //開啟更新檔案狀態
         this.status.fileUploading = true;
         //使用FormData格式，才能給後端做正確的判斷
@@ -139,6 +143,7 @@ Vue.component('productModal', {
             'Content-Type': 'multipart/form-data',
           },
         }).then((res)=>{
+          //關閉更新檔案狀態
           this.status.fileUploading = false;
           //如狀態成功，將圖片存至結果
           if(res.status === 200){
@@ -146,7 +151,7 @@ Vue.component('productModal', {
           }
         }).catch(()=>{
           console.log('上傳不可超過2MB');
-          //如失敗關閉更新檔案狀態
+          //關閉更新檔案狀態
           this.status.fileUploading = false;
         })
       },

@@ -1,6 +1,7 @@
 Vue.component('pagination', {
   template: `<nav aria-label="Page navigation example">
     <ul class="pagination">
+      <!-- 第一頁 -->
       <li
         class="page-item"
         :class="{'disabled': pages.current_page === 1}"
@@ -14,6 +15,7 @@ Vue.component('pagination', {
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
+      <!-- 1~n頁 -->
       <li
         v-for="(item, index) in pages.total_pages"
         :key="index"
@@ -26,11 +28,11 @@ Vue.component('pagination', {
           @click.prevent="emitPages(item)"
         >{{ item }}</a>
       </li>
+      <!-- 下一頁 -->
       <li
         class="page-item"
         :class="{'disabled': pages.current_page === pages.total_pages}"
       >
-      <!-- 下一頁 -->
         <a
           class="page-link"
           href="#"
